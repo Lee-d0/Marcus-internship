@@ -1,9 +1,127 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AuthorImage from "../../images/author_thumbnail.jpg";
-import nftImage from "../../images/nftImage.jpg";
+import axios from "axios";
+import Slider from "react-slick/lib/slider";
+import SkeletonNewItems from "../UI/SkeletonNewItems";
 
 const NewItems = () => {
+
+
+  const [newItem, setNewItem] = useState([])
+  const [loading, setLoading] = useState(true)
+  
+
+
+  async function newItems() {
+    setLoading(true)
+    const {data} = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems")
+   
+    setNewItem(data)
+    setLoading(false)
+    console.log(data)  
+    
+  }
+  useEffect(() => {
+    newItems()
+  },[])
+  function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "gray", borderRadius:"20px", padding:"1px 0px 0px 0px", margin:"0px 30px"}}
+        onClick={onClick}
+      />
+    );
+  }
+  
+  function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "gray", borderRadius:"20px", padding:"1px 0px 0px 0px", margin:"0px 30px"}}
+        onClick={onClick}
+      />
+    );
+  }
+  var settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    nextArrow: <SampleNextArrow/>,
+    prevArrow: <SamplePrevArrow/>,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: false
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+          dots: false
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: false
+
+        }
+      }
+    ]
+  };
+ 
+
+    for(var i = 0; i < newItem.length; i++){
+      let cancelId;
+      let startTime;
+      const countdown = newItem[i].expiryDate - Date.now()
+      const timerSeconds = document.querySelector(".timer__seconds")
+      const timerMinutes = document.querySelector(".timer__minute")
+      const timerHours = document.querySelector(".timer__hour")
+      function startTimer(){
+        startTime = Date.now()
+        console.log(startTime)
+        cancelId = requestAnimationFrame(updateTimer)
+      }
+      startTimer()
+    
+      
+
+      function updateTimer(){
+        let millisElapsed = Date.now() - startTime
+
+        let timeLeft = countdown - millisElapsed
+        let secondsLeft = timeLeft / 1000
+        console.log(timeLeft)
+        timerSeconds.innerHTML = Math.floor(secondsLeft) % 60;
+        cancelId = requestAnimationFrame(updateTimer)
+      }
+      
+
+      cancelAnimationFrame(cancelId)
+    }
+    
+ 
+
+  
+
+
+ 
   return (
     <section id="section-items" className="no-bottom">
       <div className="container">
@@ -14,21 +132,26 @@ const NewItems = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {new Array(4).fill(0).map((_, index) => (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+          
+{        loading ? <SkeletonNewItems/> :  <Slider {...settings}>
+          {newItem.map((newI, index) => (
+            <div className="" key={index}>
               <div className="nft__item">
                 <div className="author_list_pp">
                   <Link
-                    to="/author"
+                    to={`/author/${newI.authorId}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                     title="Creator: Monica Lucas"
                   >
-                    <img className="lazy" src={AuthorImage} alt="" />
+                    <img className="lazy" src={newI.authorImage} alt="" />
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
-                <div className="de_countdown">5h 30m 32s</div>
+                {newI.expiryDate ? <div className="de_countdown">
+                  <span  className="timer__hour">{Math.floor((newI.expiryDate - Date.now())/1000/60/24)}h:{Math.floor((newI.expiryDate - Date.now())/1000/60)%60}m:{Math.floor((newI.expiryDate - Date.now())/1000)%60}s</span>
+                  
+                </div>: null }
 
                 <div className="nft__item_wrap">
                   <div className="nft__item_extra">
@@ -49,9 +172,9 @@ const NewItems = () => {
                     </div>
                   </div>
 
-                  <Link to="/item-details">
+                  <Link to={`/item-details/${newI.nftId}`}>
                     <img
-                      src={nftImage}
+                      src={newI.nftImage}
                       className="lazy nft__item_preview"
                       alt=""
                     />
@@ -59,17 +182,17 @@ const NewItems = () => {
                 </div>
                 <div className="nft__item_info">
                   <Link to="/item-details">
-                    <h4>Pinky Ocean</h4>
+                    <h4>{newI.title}</h4>
                   </Link>
-                  <div className="nft__item_price">3.08 ETH</div>
+                  <div className="nft__item_price">{newI.price}ETH</div>
                   <div className="nft__item_like">
                     <i className="fa fa-heart"></i>
-                    <span>69</span>
+                    <span>{newI.likes}</span>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
+          ))}</Slider>}
         </div>
       </div>
     </section>
