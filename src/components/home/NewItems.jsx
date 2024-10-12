@@ -23,6 +23,16 @@ const NewItems = () => {
   }
   useEffect(() => {
     newItems()
+    const intervalId = setInterval(() => {
+      setNewItem(prevItem => 
+        prevItem.map(item => ({
+          ...item,
+          countdown: item.expiryDate ? Math.max(0,
+          item.expiryDate - Date.now()) : null
+        }))
+      )
+    }, 1000);
+    return () => clearInterval(intervalId)
   },[])
   function SampleNextArrow(props) {
     const { className, style, onClick } = props;
@@ -84,39 +94,16 @@ const NewItems = () => {
       }
     ]
   };
+
+  function formatCountDown(ms){
+    const seconds = Math.floor(ms / 1000) % 60;
+    const minutes = Math.floor(ms/ (1000 * 60)) % 60;
+    const hours = Math.floor(ms/ (1000 * 60 * 60))
+    return `${hours}h:${minutes}m:${seconds}`;
+  }
  
 
-    for(var i = 0; i < newItem.length; i++){
-      let cancelId;
-      let startTime;
-      const countdown = newItem[i].expiryDate - Date.now()
-      const timerSeconds = document.querySelector(".timer__seconds")
-      const timerMinutes = document.querySelector(".timer__minute")
-      const timerHours = document.querySelector(".timer__hour")
-      function startTimer(){
-        startTime = Date.now()
-        console.log(startTime)
-        cancelId = requestAnimationFrame(updateTimer)
-      }
-      startTimer()
     
-      
-
-      function updateTimer(){
-        let millisElapsed = Date.now() - startTime
-
-        let timeLeft = countdown - millisElapsed
-        let secondsLeft = timeLeft / 1000
-        console.log(timeLeft)
-        timerSeconds.innerHTML = Math.floor(secondsLeft) % 60;
-        cancelId = requestAnimationFrame(updateTimer)
-      }
-      
-
-      cancelAnimationFrame(cancelId)
-    }
-    
- 
 
   
 
@@ -148,10 +135,10 @@ const NewItems = () => {
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
-                {newI.expiryDate ? <div className="de_countdown">
-                  <span  className="timer__hour">{Math.floor((newI.expiryDate - Date.now())/1000/60/24)}h:{Math.floor((newI.expiryDate - Date.now())/1000/60)%60}m:{Math.floor((newI.expiryDate - Date.now())/1000)%60}s</span>
+                {newI.expiryDate && <div className="de_countdown">
+                  <span  className="timer__hour">{formatCountDown(newI.countdown)}</span>
                   
-                </div>: null }
+                </div>}
 
                 <div className="nft__item_wrap">
                   <div className="nft__item_extra">
