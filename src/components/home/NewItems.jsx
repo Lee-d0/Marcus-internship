@@ -18,7 +18,7 @@ const NewItems = () => {
    
     setNewItem(data)
     setLoading(false)
-    console.log(data)  
+    
     
   }
   useEffect(() => {
