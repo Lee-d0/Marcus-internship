@@ -3,27 +3,7 @@ import React from "react";
 import Slider from "react-slick/lib/slider";
 const Skeleton = ({ width, height, borderRadius }) => {
 
-  function SampleNextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "gray", borderRadius:"20px", padding:"1px 0px 0px 0px", margin:"0px 30px"}}
-        onClick={onClick}
-      />
-    );
-  }
   
-  function SamplePrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "gray", borderRadius:"20px", padding:"1px 0px 0px 0px", margin:"0px 30px"}}
-        onClick={onClick}
-      />
-    );
-  }
   var settings = {
     dots: false,
     infinite: true,
@@ -31,8 +11,6 @@ const Skeleton = ({ width, height, borderRadius }) => {
     slidesToShow: 4,
     slidesToScroll: 4,
     initialSlide: 0,
-    nextArrow: <SampleNextArrow/>,
-    prevArrow: <SamplePrevArrow/>,
     responsive: [
       {
         breakpoint: 1024,
