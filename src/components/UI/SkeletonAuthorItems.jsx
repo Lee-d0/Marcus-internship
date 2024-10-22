@@ -41,7 +41,7 @@ return (
               <Link to="/item-details">
                 <h4 className="skeleton-box" style={{width:"100px", height:"20px"}}></h4>
               </Link>
-              <div className="nft__item_price skeleton-box" style={{width:"50px", height:"20px"}}>{authorInfo.price} ETH</div>
+              <div className="nft__item_price skeleton-box" style={{width:"50px", height:"20px"}}>{authorInfo.price}</div>
               <div className="nft__item_like">
                 <i className="fa fa-heart"></i>
                 <span>{authorInfo.likes}</span>
