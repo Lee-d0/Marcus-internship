@@ -2,6 +2,10 @@ import React from "react";
 import Logo from "../images/Ultraverse.png";
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
 
 const Nav = () => {
   const openNav = () => {
@@ -13,7 +17,7 @@ const Nav = () => {
   };
 
   return (
-    <header className="transparent header-light scroll-light smaller">
+    <header className="transparent header-light scroll-light smaller" data-aos="zoom-in-down" data-aos-duration="1000">
       <div className="container">
         <div className="row">
           <div className="col-md-12">

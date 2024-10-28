@@ -4,6 +4,11 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import SkeletonDetail from "../components/UI/SkeletonDetail";
 
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
+
 const ItemDetails = () => {
   const {id} = useParams()
   const [detail, setDetail] = useState([])
@@ -39,9 +44,10 @@ const ItemDetails = () => {
                   src={detail.nftImage}
                   className="img-fluid img-rounded mb-sm-30 nft-image"
                   alt=""
+                  data-aos="zoom-in-up"
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6" data-aos="fade-in" data-aos-duration="2000">
                 <div className="item_info">
                   <h2>{detail.title} #{detail.tag}</h2>
 
