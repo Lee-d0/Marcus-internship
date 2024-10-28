@@ -5,6 +5,10 @@ import { Link, useParams } from "react-router-dom";
 
 import axios from "axios";
 import SkeletonAuthor from "../components/UI/SkeletonAuthor";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
 
 
 
@@ -53,7 +57,7 @@ const Author = () => {
         <section aria-label="section">
           <div className="container">
             
-            {loading ? <SkeletonAuthor/> :<div className="row">
+            {loading ? <SkeletonAuthor/> :<div className="row" data-aos="fade-in" data-aos-duration="1000">
                <div className="col-md-12">
                 <div className="d_profile de-flex">
                   <div className="de-flex-col">

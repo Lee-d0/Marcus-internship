@@ -5,6 +5,10 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import SkeletonNewItems from "../UI/SkeletonNewItems";
 import SkeletonAuthorItems from "../UI/SkeletonAuthorItems";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
 
 const AuthorItems = () => {
   const {id} = useParams()
@@ -31,7 +35,7 @@ const AuthorItems = () => {
     AuthorName()
   },[])
   return (
-    <div className="de_tab_content">
+    <div className="de_tab_content" data-aos="fade-in" data-aos-duration="1000">
       <div className="tab-1">
         <div className="row">
            {loading ? <SkeletonAuthorItems/> : author.map((authorInfo, index) => (

@@ -4,7 +4,12 @@ import SkeletonNewItems from "../UI/SkeletonNewItems.jsx"
 
 
 
+
 import axios from "axios";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
 
 const ExploreItems = () => {
   const [explore, setExplore] = useState([])
@@ -76,7 +81,7 @@ const ExploreItems = () => {
 
     
     <>
-      <div>
+      <div data-aos="fade-in" data-aos-duration="1000">
         <form action="#">
         <select id="filter-items" defaultValue="" value={sortOrder} onChange={handleSortChange} >
           <option value="default">Default</option>
@@ -91,6 +96,7 @@ const ExploreItems = () => {
         key={index}
         className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
         style={{ display: "block", backgroundSize: "cover" }}
+        data-aos="fade-in" data-aos-duration="1000"
       >
         <div className="nft__item">
           <div className="author_list_pp">
@@ -144,7 +150,7 @@ const ExploreItems = () => {
       </div>
     ))}
       {visible < 16 &&  <div className="col-md-12 text-center">
-        <Link to="" id="loadmore" className="btn-main lead" onClick={handleAdd}>
+        <Link to="" id="loadmore" className="btn-main lead" onClick={handleAdd} data-aos="zoom-in-up" data-aos-duration="1000">
           Load more
         </Link>
       </div>}

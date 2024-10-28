@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import axios from "axios";
 import SkeletonTopSell from "../UI/SkeletonTopSell";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
 
 const TopSellers = () => {
 
@@ -31,12 +35,12 @@ const TopSellers = () => {
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
-            <div className="text-center">
-              <h2>Top Sellers</h2>
+            <div className="text-center" data-aos="zoom-in-up" data-aos-duration="1000" >
+              <h2 >Top Sellers</h2>
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <div className="col-md-12">
+          <div className="col-md-12" data-aos="zoom-in-up" data-aos-duration="1000">
             <ol className="author_list">
               {loading ? <SkeletonTopSell/> : topSeller.map((topSell, index) => (
                 <li key={index}>

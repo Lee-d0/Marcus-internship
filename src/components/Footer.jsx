@@ -1,10 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../images/Ultraverse.png";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
 
 const Footer = () => {
   return (
-    <footer className="footer-light">
+    <footer className="footer-light" data-aos="zoom-in-up" data-aos-duration="1000">
       <div className="container">
         <div className="row">
           <div className="col-md-3 col-sm-6 col-xs-1">
